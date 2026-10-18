@@ -1,4 +1,4 @@
-import { Rich } from "@/components/brand/rich";
+import { Rich } from "@sellora/ui/brand/rich";
 import { t, tr } from "@sellora/shared/i18n";
 import { cn } from "@sellora/ui/utils";
 import { Reveal } from "./reveal";

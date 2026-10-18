@@ -2,7 +2,7 @@ import { useId } from "react";
 import config from "@sellora/shared/config";
 import { WORDMARK } from "@sellora/shared/brand/wordmark.generated";
 import { INNER_RING, PIN_DOT, PIN_PATH, scallopPath } from "@sellora/shared/brand/stamp-geometry";
-import { cn } from "@sellora/ui/utils";
+import { cn } from "../utils";
 
 type LogoVariant = "full" | "icon" | "mono-light" | "mono-dark";
 

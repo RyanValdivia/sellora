@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { cn } from "@sellora/ui/utils";
+import { cn } from "../utils";
 
 /**
  * Pinta *palabras* con el acento serif cursivo dentro de un titular.

@@ -55,3 +55,7 @@ next-env.d.ts
 *.sqlite-shm
 /apps/web/data/
 data/
+
+# build de Vite y Capacitor
+apps/app/dist/
+android/local.properties

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Rich } from "@/components/brand/rich";
+import { Rich } from "@sellora/ui/brand/rich";
 import { buttonVariants } from "@sellora/ui/components/button";
 import { t } from "@sellora/shared/i18n";
 import { cn } from "@sellora/ui/utils";

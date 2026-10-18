@@ -1,4 +1,4 @@
-import { Logo } from "@/components/brand/logo";
+import { Logo } from "@sellora/ui/brand/logo";
 import { t } from "@sellora/shared/i18n";
 import { cn } from "@sellora/ui/utils";
 

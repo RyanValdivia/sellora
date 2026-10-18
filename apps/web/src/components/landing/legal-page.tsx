@@ -1,6 +1,6 @@
 import Link from "next/link";
 import config from "@sellora/shared/config";
-import { Logo } from "@/components/brand/logo";
+import { Logo } from "@sellora/ui/brand/logo";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { t, tr } from "@sellora/shared/i18n";
 

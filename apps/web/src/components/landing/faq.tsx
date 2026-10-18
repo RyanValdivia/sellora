@@ -1,4 +1,4 @@
-import { Rich } from "@/components/brand/rich";
+import { Rich } from "@sellora/ui/brand/rich";
 import {
   Accordion,
   AccordionContent,

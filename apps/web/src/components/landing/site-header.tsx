@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { MenuIcon } from "lucide-react";
-import { Logo } from "@/components/brand/logo";
+import { Logo } from "@sellora/ui/brand/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@sellora/ui/components/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@sellora/ui/components/sheet";
