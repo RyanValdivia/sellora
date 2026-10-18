@@ -9,6 +9,7 @@ import { AuthProvider } from "@/lib/auth";
 import { AdminPage } from "@/pages/admin";
 import { CajaPage } from "@/pages/caja";
 import { CardPage } from "@/pages/card";
+import { CustomerCard, CustomerHome, CustomerShell } from "@/pages/customer";
 import { HomePage } from "@/pages/home";
 import { LocationsPage } from "@/pages/locations";
 import { LoginPage, RegisterPage } from "@/pages/auth";
@@ -26,6 +27,14 @@ const router = createHashRouter([
   { path: "/entrar", element: <LoginPage /> },
   { path: "/registro", element: <RegisterPage /> },
   { path: "/admin", element: <AdminPage /> },
+  {
+    path: "/c",
+    element: <CustomerShell />,
+    children: [
+      { index: true, element: <CustomerHome /> },
+      { path: ":serial", element: <CustomerCard /> },
+    ],
+  },
   {
     element: <AppShell />,
     children: [

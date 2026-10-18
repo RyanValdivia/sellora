@@ -143,8 +143,9 @@ export async function stampPass(
 
   if (!(await commit(found, result.card, "stamp", actorUserId, now)))
     return { ok: false, reason: "conflict" };
-  void notifyPassUpdated(found.pass.serial);
-  return { ok: true, response: respond(found, result.card, "stamp", result.completed) };
+  const response = respond(found, result.card, "stamp", result.completed);
+  void notifyPassUpdated(found.pass.serial, { title: found.business.name, message: response.message });
+  return { ok: true, response };
 }
 
 export async function redeemPass(
@@ -157,6 +158,7 @@ export async function redeemPass(
 
   if (!(await commit(found, result.card, "redeem", actorUserId, now)))
     return { ok: false, reason: "conflict" };
-  void notifyPassUpdated(found.pass.serial);
-  return { ok: true, response: respond(found, result.card, "redeem", false) };
+  const response = respond(found, result.card, "redeem", false);
+  void notifyPassUpdated(found.pass.serial, { title: found.business.name, message: response.message });
+  return { ok: true, response };
 }

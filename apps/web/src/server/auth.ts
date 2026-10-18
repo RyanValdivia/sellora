@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter";
-import { bearer } from "better-auth/plugins";
+import { anonymous, bearer } from "better-auth/plugins";
 import { env } from "../lib/env";
 import { dbPromise, isPostgres } from "./db";
 import * as sqliteSchema from "./db/schema.sqlite";
@@ -27,7 +27,17 @@ export const auth = betterAuth({
       role: { type: "string", required: false, defaultValue: "owner", input: false },
     },
   },
-  plugins: [bearer()],
+  // Los clientes de la app usan una cuenta anónima: sin correo ni teléfono (privacidad por diseño).
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => ({
+          data: { ...user, role: (user as { isAnonymous?: boolean }).isAnonymous ? "customer" : user.role },
+        }),
+      },
+    },
+  },
+  plugins: [bearer(), anonymous()],
 });
 
 export type Session = typeof auth.$Infer.Session;

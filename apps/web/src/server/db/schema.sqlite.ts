@@ -27,7 +27,8 @@ export const user = sqliteTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: integer("email_verified", { mode: "boolean" }).notNull().default(false),
   image: text("image"),
-  role: text("role", { enum: ["superadmin", "owner", "staff"] })
+  isAnonymous: integer("is_anonymous", { mode: "boolean" }).notNull().default(false),
+  role: text("role", { enum: ["superadmin", "owner", "staff", "customer"] })
     .notNull()
     .default("owner"),
   createdAt: createdAt(),

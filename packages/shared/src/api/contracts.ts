@@ -102,6 +102,43 @@ export interface InvitationDto {
   expiresAt: string;
 }
 
+export const addCustomerCardInput = z.object({
+  slug: z
+    .string()
+    .trim()
+    .min(1)
+    .max(60)
+    .regex(/^[a-z0-9-]+$/),
+});
+
+export const renameHolderInput = z.object({ holderName: z.string().trim().max(40).nullable() });
+
+export const pushTokenInput = z.object({
+  token: z.string().min(10).max(4096),
+  platform: z.enum(["ios", "android"]),
+});
+
+/** Tarjeta de un cliente con lo necesario para dibujarla en la app. */
+export interface CustomerCardDto {
+  card: CardDto;
+  slug: string;
+  identity: { name: string };
+  passDesign: {
+    backgroundColor: string;
+    foregroundColor: string;
+    labelColor: string;
+    stampIcon: "star" | "coffee" | "bread" | "scissors" | "chicken" | "icecream" | "heart";
+  };
+}
+
+/** Extrae el slug de un enlace /b/slug (el del QR o la etiqueta NFC) o de un slug suelto. */
+export function slugFromLink(text: string): string | null {
+  const trimmed = text.trim();
+  const match = /\/b\/([a-z0-9-]+)\/?(?:[?#].*)?$/.exec(trimmed);
+  const slug = match ? match[1]! : trimmed;
+  return /^[a-z0-9-]{1,60}$/.test(slug) ? slug : null;
+}
+
 export const adminBusinessPatch = z.object({
   active: z.boolean().optional(),
   plan: z.enum(["free", "pro"]).optional(),

@@ -68,6 +68,25 @@ export async function requireMember(
   return { membership: { userId: session.user.id, role, businessId } };
 }
 
+/**
+ * Cliente de la app: sesión anónima con rol "customer". Crea su fila en `customer` la primera vez
+ * (mismo id que el usuario) para poder colgar sus tarjetas.
+ */
+export async function requireCustomer(
+  request: Request,
+): Promise<{ customerId: string } | { response: Response }> {
+  const session = await getSession(request);
+  if (!session) return { response: unauthorized() };
+  if ((session.user as { role?: string }).role !== "customer") return { response: forbidden() };
+
+  const db = await dbPromise;
+  await db
+    .insert(schema.customer)
+    .values({ id: session.user.id })
+    .onConflictDoNothing({ target: schema.customer.id });
+  return { customerId: session.user.id };
+}
+
 /** Solo el superadmin de la plataforma. Para el resto responde 404 y no revela que el panel existe. */
 export async function requireSuperadmin(
   request: Request,

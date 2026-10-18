@@ -32,6 +32,9 @@ export async function POST(request: Request) {
   const session = await getSession(request);
   if (!session) return unauthorized();
 
+  if ((session.user as { role?: string }).role === "customer") {
+    return fail(403, "forbidden", "Las cuentas de cliente no pueden crear negocios.");
+  }
   const isSuperadmin = (session.user as { role?: string }).role === "superadmin";
   if (!isSuperadmin && !(await getPlatformSettings()).signupsOpen) {
     return fail(403, "signups_closed", "Por ahora no estamos creando negocios nuevos.");

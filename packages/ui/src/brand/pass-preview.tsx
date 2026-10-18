@@ -22,8 +22,16 @@ const ICONS: Record<BusinessConfig["passDesign"]["stampIcon"], LucideIcon> = {
   heart: Heart,
 };
 
+/** Mismo reparto que el strip del pase real: una fila hasta 6 sellos, dos hasta 12 y tres hasta 20. */
+function columnsFor(total: number): number {
+  const rows = total <= 6 ? 1 : total <= 12 ? 2 : 3;
+  return Math.ceil(total / rows);
+}
+
 interface Props {
-  config: Pick<BusinessConfig, "identity" | "passDesign"> & {
+  config: {
+    identity: Pick<BusinessConfig["identity"], "name">;
+    passDesign: BusinessConfig["passDesign"];
     rules: Pick<BusinessConfig["rules"], "stampsRequired" | "reward">;
   };
   stamps: number;
@@ -53,7 +61,11 @@ export function PassPreview({ config, stamps }: Props) {
         </div>
       </div>
 
-      <ul className="mt-5 grid grid-cols-5 gap-2.5" aria-hidden>
+      <ul
+        className="mt-5 grid gap-2.5"
+        style={{ gridTemplateColumns: `repeat(${columnsFor(total)}, minmax(0, 1fr))` }}
+        aria-hidden
+      >
         {Array.from({ length: total }, (_, i) => {
           const on = i < filled;
           return (

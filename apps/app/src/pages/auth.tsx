@@ -48,7 +48,7 @@ function AuthFrame({
 }
 
 export function LoginPage() {
-  const { state, signIn } = useAuth();
+  const { state, signIn, signInAsCustomer } = useAuth();
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
   const form = useForm({ resolver: zodResolver(loginSchema), defaultValues: { email: "", password: "" } });
@@ -92,6 +92,21 @@ export function LoginPage() {
           {t("app.auth.login")}
         </Button>
       </form>
+      <div className="flex flex-col items-center gap-1 rounded-2xl border border-dashed border-border p-4 text-center">
+        <Button
+          type="button"
+          variant="ghost"
+          className="font-medium"
+          onClick={() =>
+            void signInAsCustomer()
+              .then(() => navigate("/c", { replace: true }))
+              .catch((e: Error) => setFormError(e.message))
+          }
+        >
+          {t("me.enter")}
+        </Button>
+        <p className="text-xs text-muted-foreground">{t("me.enterHint")}</p>
+      </div>
       <p className="text-center text-sm text-muted-foreground">
         {t("app.auth.noAccount")}{" "}
         <Link to="/registro" className="font-medium text-ink-accent underline underline-offset-4">

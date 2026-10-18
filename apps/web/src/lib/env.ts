@@ -8,6 +8,8 @@ const walletVars = {
   APPLE_SIGNER_CERT_PATH: z.string().optional(),
   APPLE_SIGNER_KEY_PATH: z.string().optional(),
   APPLE_SIGNER_KEY_PASSPHRASE: z.string().optional(),
+  /** JSON de la cuenta de servicio de Firebase para avisar a la app del cliente (FCM). Opcional. */
+  FCM_SERVICE_ACCOUNT_PATH: z.string().optional(),
 };
 
 /**

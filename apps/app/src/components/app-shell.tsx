@@ -41,6 +41,7 @@ export function AppShell() {
 
   if (state.status === "loading") return <Loading />;
   if (state.status === "anonymous") return <Navigate to="/entrar" replace />;
+  if (state.user.role === "customer") return <Navigate to="/c" replace />;
   if (isPending) return <Loading />;
   if (isError) {
     return (

@@ -5,7 +5,7 @@ export interface SessionUser {
   id: string;
   name: string;
   email: string;
-  role: "superadmin" | "owner" | "staff";
+  role: "superadmin" | "owner" | "staff" | "customer";
 }
 
 type AuthState =
@@ -15,6 +15,8 @@ interface AuthApi {
   state: AuthState;
   signIn(email: string, password: string): Promise<void>;
   signUp(name: string, email: string, password: string): Promise<void>;
+  /** Cliente de la app: cuenta anónima, sin correo ni teléfono. */
+  signInAsCustomer(): Promise<void>;
   signOut(): Promise<void>;
 }
 
@@ -55,6 +57,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await finishLogin(
           await request("/api/auth/sign-up/email", { method: "POST", ...json({ name, email, password }) }),
         );
+      },
+      async signInAsCustomer() {
+        await finishLogin(await request("/api/auth/sign-in/anonymous", { method: "POST", ...json({}) }));
       },
       async signOut() {
         await request("/api/auth/sign-out", { method: "POST", ...json({}) }).catch(() => undefined);
