@@ -1,12 +1,12 @@
 import { PKPass, PassType } from "passkit-generator";
 import type { BusinessConfig } from "@sellora/shared/business/config";
-import { renderMessage, varsFromCard } from "@sellora/shared/business/messages";
+import { eventMessage, renderMessage, varsFromCard, type PassEvent } from "@sellora/shared/business/messages";
 import { encodeCardQr } from "@sellora/shared/business/qr";
 import { env } from "../../lib/env";
 import { loadCertificates, walletMode, type WalletMode } from "./certificates";
 import { staticImages, stripImages } from "./images";
 
-export type PassEvent = "welcome" | "stamp" | "redeem";
+export type { PassEvent };
 
 export interface PassContext {
   business: { name: string; config: BusinessConfig };
@@ -29,17 +29,17 @@ export function hexToRgb(hex: string): string {
   return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
 }
 
-const MESSAGE_FOR_EVENT = {
-  welcome: "welcome",
-  stamp: "stampAdded",
-  redeem: "redeemed",
-} as const;
-
 /** Texto del cambio de estado. Cuando la tarjeta se completa, ese mensaje tiene prioridad. */
 export function messageFor(ctx: PassContext): string {
-  const { config } = ctx.business;
-  const key = ctx.event === "stamp" && ctx.pass.rewardReady ? "rewardReady" : MESSAGE_FOR_EVENT[ctx.event];
-  return renderMessage(config.messages[key], cardVars(ctx));
+  const { config, name } = ctx.business;
+  const card = {
+    stamps: ctx.pass.stamps,
+    stampsRequired: config.rules.stampsRequired,
+    reward: config.rules.reward,
+    businessName: name,
+    holderName: ctx.pass.holderName,
+  };
+  return eventMessage(config.messages, ctx.event, card, ctx.pass.rewardReady);
 }
 
 function cardVars(ctx: PassContext) {

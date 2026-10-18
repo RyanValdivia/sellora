@@ -56,3 +56,28 @@ export function slugify(name: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 40);
 }
+
+/** Estado de una tarjeta tal como lo ve caja o la app del cliente. */
+export interface CardDto {
+  serial: string;
+  businessName: string;
+  holderName: string | null;
+  stamps: number;
+  stampsRequired: number;
+  reward: string;
+  rewardReady: boolean;
+  redemptions: number;
+  lastStampAt: string | null;
+  expiresAt: string | null;
+}
+
+export type CardDenial =
+  "expired" | "reward_pending" | "daily_limit" | "too_soon" | "reward_not_ready" | "conflict";
+
+export interface CardActionResponse {
+  card: CardDto;
+  /** Verdadero si este sello completó la tarjeta. */
+  completed: boolean;
+  /** Mensaje que recibirá el cliente (ya con variables). Caja lo muestra como confirmación. */
+  message: string;
+}

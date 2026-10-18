@@ -67,3 +67,18 @@ export async function requireMember(
   if (opts.ownerOnly && role !== "owner") return { response: forbidden() };
   return { membership: { userId: session.user.id, role, businessId } };
 }
+
+/**
+ * Carga una tarjeta para el personal. Responde igual (404) si no existe o si es de otro negocio,
+ * para que un cajero no pueda averiguar qué seriales existen en otros locales.
+ */
+export async function loadPassForStaff(request: Request, serial: string) {
+  const { findPass } = await import("./passes/stamping");
+  const session = await getSession(request);
+  if (!session) return { response: unauthorized() };
+  const found = await findPass(serial);
+  if (!found) return { response: notFound() };
+  const guard = await requireMember(request, found.business.id);
+  if ("response" in guard) return { response: notFound() };
+  return { found, userId: guard.membership.userId };
+}

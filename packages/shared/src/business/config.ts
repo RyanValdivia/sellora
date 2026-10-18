@@ -36,7 +36,7 @@ export const businessConfigSchema = z.object({
       "Ahora tienes {sellos_actuales} de {sellos_total} sellos. Te faltan {sellos_faltantes}.",
     ),
     rewardReady: message.default("¡Completaste tu tarjeta, {nombre}! Canjea {premio} en {negocio}."),
-    redeemed: message.default("Disfruta tu {premio}. ¡Vuelve pronto a {negocio}!"),
+    redeemed: message.default("Canjeaste: {premio}. ¡Vuelve pronto a {negocio}!"),
     nearby: message.default("Estás cerca de {negocio}. Te faltan {sellos_faltantes} sellos para {premio}."),
   }),
   passDesign: z.object({

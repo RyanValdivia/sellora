@@ -35,6 +35,12 @@ describe("mensajes", () => {
     const sinNombre = varsFromCard({ stamps: 6, stampsRequired: 6, reward: "Pan", businessName: "Alba" });
     expect(renderMessage("Listo {nombre}! Canjea {premio}", sinNombre)).toBe("Listo! Canjea Pan");
   });
+  it("sin nombre tampoco deja la coma colgando", () => {
+    const sinNombre = varsFromCard({ stamps: 6, stampsRequired: 6, reward: "Pan", businessName: "Alba" });
+    expect(renderMessage("¡Completaste tu tarjeta, {nombre}! Canjea {premio}", sinNombre)).toBe(
+      "¡Completaste tu tarjeta! Canjea Pan",
+    );
+  });
   it("no deja faltantes negativos", () => {
     expect(
       varsFromCard({ stamps: 9, stampsRequired: 6, reward: "x", businessName: "y" }).sellos_faltantes,

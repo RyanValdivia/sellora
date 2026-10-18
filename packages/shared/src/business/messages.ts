@@ -1,3 +1,5 @@
+import type { BusinessConfig } from "./config.ts";
+
 /** Variables disponibles en los mensajes del negocio. */
 export const MESSAGE_VARIABLES = [
   "sellos_actuales",
@@ -29,6 +31,8 @@ export function renderMessage(template: string, vars: MessageVars): string {
       return value === undefined ? "" : String(value);
     })
     .replace(/\s+([,.!?])/g, "$1")
+    // Sin nombre queda una coma colgando ("tarjeta,!"): la quitamos.
+    .replace(/,\s*([!.?])/g, "$1")
     .replace(/\s{2,}/g, " ")
     .trim();
 }
@@ -61,4 +65,19 @@ export function varsFromCard(card: CardSnapshot): MessageVars {
     negocio: card.businessName,
     nombre: card.holderName?.trim() ?? "",
   };
+}
+
+export type PassEvent = "welcome" | "stamp" | "redeem";
+
+const MESSAGE_FOR_EVENT = { welcome: "welcome", stamp: "stampAdded", redeem: "redeemed" } as const;
+
+/** Texto del aviso para un evento. Si un sello completa la tarjeta, gana el mensaje de premio listo. */
+export function eventMessage(
+  messages: BusinessConfig["messages"],
+  event: PassEvent,
+  card: CardSnapshot,
+  rewardReady: boolean,
+): string {
+  const key = event === "stamp" && rewardReady ? "rewardReady" : MESSAGE_FOR_EVENT[event];
+  return renderMessage(messages[key], varsFromCard(card));
 }

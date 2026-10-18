@@ -3,7 +3,6 @@ import { Smartphone, Wallet } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import config from "@sellora/shared/config";
 import { PassPreview } from "@sellora/ui/brand/pass-preview";
 import { buttonVariants } from "@sellora/ui/components/button";
 import { cn } from "@sellora/ui/utils";
