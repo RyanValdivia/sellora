@@ -36,7 +36,13 @@ if (!parsed.success) {
   throw new Error(`Variables de entorno inválidas:\n${issues}\nRevisa tu .env contra .env.example.`);
 }
 
-if (process.env.NODE_ENV === "production" && parsed.data.BETTER_AUTH_SECRET.startsWith("dev-only")) {
+// `next build` también corre con NODE_ENV=production, pero aún no sirve tráfico: el secreto se exige al arrancar.
+const building = process.env.NEXT_PHASE === "phase-production-build";
+if (
+  !building &&
+  process.env.NODE_ENV === "production" &&
+  parsed.data.BETTER_AUTH_SECRET.startsWith("dev-only")
+) {
   throw new Error("Define BETTER_AUTH_SECRET con un valor propio antes de ir a producción.");
 }
 
