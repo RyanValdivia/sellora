@@ -1,10 +1,21 @@
 import { z } from "zod";
 
+// Apple Wallet. Sin estas variables la app funciona en modo vista previa (pase sin firma válida para Apple).
+const walletVars = {
+  APPLE_PASS_TYPE_ID: z.string().min(1).default("pass.app.sellora.dev"),
+  APPLE_TEAM_ID: z.string().min(1).default("DEVTEAM000"),
+  APPLE_WWDR_CERT_PATH: z.string().optional(),
+  APPLE_SIGNER_CERT_PATH: z.string().optional(),
+  APPLE_SIGNER_KEY_PATH: z.string().optional(),
+  APPLE_SIGNER_KEY_PASSPHRASE: z.string().optional(),
+};
+
 /**
  * Variables de entorno validadas al arrancar (capa 2).
  * Se amplía en cada hito; ver .env.example para la descripción de cada una.
  */
 const schema = z.object({
+  ...walletVars,
   APP_URL: z.url().default("http://localhost:3000"),
   /** file:./data/sellora.db (SQLite) o postgres://... (Postgres). Decide el driver. */
   DATABASE_URL: z

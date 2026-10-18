@@ -262,6 +262,20 @@ export const esPE = {
         "Graba este mismo enlace en una etiqueta NFC con cualquier app gratuita (por ejemplo NFC Tools). El cliente acerca el celular y se abre su tarjeta.",
     },
   },
+  card: {
+    addToApple: "Añadir a Apple Wallet",
+    addToApp: "Guardar en la app de {brand}",
+    androidSoon: "En Android, tu tarjeta vivirá en la app de {brand}. Muy pronto.",
+    previewNotice:
+      "Modo vista previa: este pase aún no se puede añadir a un iPhone porque faltan los certificados de Apple.",
+    howTitle: "Cómo se usa",
+    howBody:
+      "Muestra el código de tu tarjeta en caja y te sellan en cada visita. Al juntar {total} sellos, te llevas {reward}.",
+    locationsTitle: "Dónde sellar",
+    privacy: "Tu ubicación nunca sale de tu celular. Leer más",
+    tooMany: "Este negocio llegó al máximo de tarjetas de su plan. Pídele al local que la amplíe.",
+    rateLimited: "Demasiados intentos seguidos. Prueba de nuevo en unos minutos.",
+  },
   legal: {
     updated: "Última actualización: {date}",
     draftNotice:

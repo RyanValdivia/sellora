@@ -9,7 +9,7 @@ import { BUSINESS_CATEGORIES, STAMP_ICONS } from "@sellora/shared/business/confi
 import { t, type DictionaryKey } from "@sellora/shared/i18n";
 import type { BusinessSummary } from "@sellora/shared/api/contracts";
 import { ChoiceGroup, TextField } from "@/components/fields";
-import { PassPreview } from "@/components/pass-preview";
+import { PassPreview } from "@sellora/ui/brand/pass-preview";
 import { useConfigForm } from "@/lib/config-form";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
