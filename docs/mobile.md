@@ -23,6 +23,20 @@ pnpm --filter @sellora/app dev            # app en :5173
 
 La app web usa la cámara del navegador (jsQR) para escanear y, si no hay cámara, deja escribir el código a mano.
 
+## Probar en el emulador de Android Studio
+
+El emulador ve el PC en `10.0.2.2`:
+
+```bash
+cd apps/app
+VITE_API_URL=http://10.0.2.2:3000 pnpm android:debug
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+El escáner nativo de Google se descarga la primera vez y necesita Google Play Services. Si no está disponible (como en
+algunos emuladores), la app avisa y usa la cámara del WebView como respaldo: la cámara virtual del emulador no sirve para
+leer un QR de verdad, así que en el emulador usa el campo de código manual. En un celular real el escáner funciona.
+
 ## Probar en un Android real (debug)
 
 1. Averigua la IP de tu PC en la red local, por ejemplo `192.168.18.21`, y pon el celular en la **misma red Wi-Fi**.
@@ -46,6 +60,9 @@ La app web usa la cámara del navegador (jsQR) para escanear y, si no hay cámar
 
 Las peticiones salen por el cliente HTTP nativo de Capacitor, así que no hay problemas de CORS. El permiso para HTTP sin
 cifrar solo existe en builds **debug** (`android/app/src/debug/AndroidManifest.xml`); el build release exige HTTPS.
+
+**Importante:** `APP_URL` es la dirección que el servidor escribe en los enlaces de invitación y en el QR. Si la dejas en
+`localhost`, esos enlaces no abren desde otro celular. Ponle la IP de tu PC (o tu dominio).
 
 Con Windows Firewall activo, permite Node.js en redes privadas la primera vez que lo pida.
 

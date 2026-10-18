@@ -8,7 +8,8 @@ import { WebScanner } from "@/components/web-scanner";
 import { TextField } from "@/components/fields";
 import { HttpError } from "@/lib/api";
 import { fetchCard, redeemCard, stampCard } from "@/lib/cards";
-import { ScanCancelled, hasNativeScanner, scanNative } from "@/lib/scanner";
+import { toast } from "sonner";
+import { ScanCancelled, ScannerUnavailable, hasNativeScanner, scanNative } from "@/lib/scanner";
 
 type View =
   | { name: "idle" }
@@ -68,9 +69,12 @@ export function CajaPage() {
     setError(null);
     if (!hasNativeScanner()) return setView({ name: "camera" });
     try {
-      await lookup(await scanNative());
+      await lookup(await scanNative(() => toast.info(t("caja.preparing"))));
     } catch (e) {
-      if (!(e instanceof ScanCancelled)) setError((e as Error).message);
+      if (e instanceof ScannerUnavailable) {
+        toast.message(e.message);
+        setView({ name: "camera" });
+      } else if (!(e instanceof ScanCancelled)) setError((e as Error).message);
     }
   }
 

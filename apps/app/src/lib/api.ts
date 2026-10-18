@@ -42,12 +42,14 @@ export async function request(path: string, init: RequestInit = {}): Promise<Res
     throw new HttpError(0, "network", "No pudimos conectar con el servidor. Revisa tu internet.");
   }
   if (!res.ok) {
-    const body = (await res.json().catch(() => null)) as ApiError | null;
+    // Nuestras rutas responden { error: { code, message } }; Better Auth responde { code, message }.
+    const body = (await res.json().catch(() => null)) as
+      (Partial<ApiError> & { code?: string; message?: string }) | null;
     throw new HttpError(
       res.status,
-      body?.error.code ?? "unknown",
-      body?.error.message ?? "Algo salió mal. Inténtalo de nuevo.",
-      body?.error.issues,
+      body?.error?.code ?? body?.code ?? "unknown",
+      body?.error?.message ?? body?.message ?? "Algo salió mal. Inténtalo de nuevo.",
+      body?.error?.issues,
     );
   }
   return res;

@@ -16,7 +16,7 @@ import { HttpError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useAddCard, useMyCard, useMyCards, useRenameCard } from "@/lib/customer";
 import { registerForPush } from "@/lib/push";
-import { ScanCancelled, hasNativeScanner, scanNative } from "@/lib/scanner";
+import { ScanCancelled, ScannerUnavailable, hasNativeScanner, scanNative } from "@/lib/scanner";
 
 /** Marco de la parte del cliente: sin menú, solo sus tarjetas. */
 export function CustomerShell() {
@@ -77,9 +77,12 @@ function AddCard() {
   async function scan() {
     if (!hasNativeScanner()) return setScanning(true);
     try {
-      await submit(await scanNative());
+      await submit(await scanNative(() => toast.info(t("caja.preparing"))));
     } catch (e) {
-      if (!(e instanceof ScanCancelled)) toast.error((e as Error).message);
+      if (e instanceof ScannerUnavailable) {
+        toast.message(e.message);
+        setScanning(true);
+      } else if (!(e instanceof ScanCancelled)) toast.error((e as Error).message);
     }
   }
 

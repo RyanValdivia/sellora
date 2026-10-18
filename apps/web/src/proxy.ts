@@ -17,9 +17,23 @@ export function proxy(request: NextRequest) {
     return res;
   }
 
-  const res = NextResponse.next();
+  const res = NextResponse.next({ request: { headers: withoutStaleCookie(request) } });
   if (ok) setCors(res, origin);
   return res;
+}
+
+/**
+ * El cliente HTTP nativo de Android no puede enviar Origin (es una cabecera restringida) y recuerda las cookies de
+ * sesiones anteriores. Better Auth rechaza con 403 ("Missing or null Origin") cualquier ruta de autenticación que
+ * llegue con cookie y sin Origin, lo que bloquea el siguiente inicio de sesión de la app.
+ * Un navegador siempre manda Origin en los POST entre sitios, así que sin Origin ni Referer no hay riesgo CSRF:
+ * ignoramos la cookie y la sesión viaja por el token bearer.
+ */
+function withoutStaleCookie(request: NextRequest): Headers {
+  const headers = new Headers(request.headers);
+  const isAuth = request.nextUrl.pathname.startsWith("/api/auth/");
+  if (isAuth && !headers.has("origin") && !headers.has("referer")) headers.delete("cookie");
+  return headers;
 }
 
 function setCors(res: NextResponse, origin: string) {

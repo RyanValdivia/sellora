@@ -148,3 +148,29 @@ ok(r.status === 204, "dispositivo ya no tiene pases registrados");
 
 // restaurar config
 await fetch(`${H}/api/business/${bid}/config`, { method: "PUT", ...j(owner, original) });
+
+// 9. Cliente nativo sin Origin pero con una cookie vieja (Android): debe poder iniciar sesión.
+//    Un navegador de otro sitio (Origin ajeno) sigue bloqueado por CSRF.
+//    Se usa node:http porque fetch añade cabeceras Sec-Fetch-* que el cliente HTTP de Android no envía.
+const { request: httpRequest } = await import("node:http");
+const signIn = (extra) =>
+  new Promise((resolve, reject) => {
+    const req = httpRequest(
+      new URL(`${H}/api/auth/sign-in/email`),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Cookie: "better-auth.session_token=vieja", ...extra },
+      },
+      (res) => {
+        res.resume();
+        res.on("end", () => resolve(res.statusCode));
+      },
+    );
+    req.on("error", reject);
+    req.end(JSON.stringify({ email: "alba@sellora.test", password: "sellora-dev-123" }));
+  });
+ok((await signIn({})) === 200, "app nativa (sin Origin, cookie vieja) inicia sesión");
+ok(
+  (await signIn({ Origin: "http://evil.example" })) === 403,
+  "Origen ajeno con cookie sigue bloqueado (CSRF)",
+);

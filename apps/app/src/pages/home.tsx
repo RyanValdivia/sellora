@@ -46,7 +46,9 @@ export function HomePage() {
     <div className="flex flex-col gap-5">
       <div>
         <h1 className="text-2xl font-extrabold">{t("app.home.greeting", { name })}</h1>
-        <p className="mt-1 text-muted-foreground">{t("app.home.subtitle")}</p>
+        <p className="mt-1 text-muted-foreground">
+          {t(business.role === "owner" ? "app.home.subtitle" : "app.home.subtitleStaff")}
+        </p>
       </div>
       <ol className="flex flex-col gap-3">
         {steps

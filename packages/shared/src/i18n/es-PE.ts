@@ -174,6 +174,7 @@ export const esPE = {
     home: {
       greeting: "Hola, {name}",
       subtitle: "Esto es lo que sigue para tener tu tarjeta lista:",
+      subtitleStaff: "Desde aquí atiendes en caja:",
       steps: {
         card: "Diseña tu tarjeta",
         locations: "Añade tu local para los avisos",
@@ -358,6 +359,8 @@ export const esPE = {
     notSellora: "Ese código no es una tarjeta de {brand}.",
     notFound: "No encontramos esa tarjeta en tu negocio.",
     permission: "Necesitamos permiso de cámara para escanear.",
+    preparing: "Preparando el escáner por primera vez… puede tardar un momento.",
+    moduleFailed: "No pudimos preparar el escáner nativo. Usaremos la cámara de la app.",
     denied: {
       expired: "Esta tarjeta caducó.",
       reward_pending: "Ya completó la tarjeta: toca canjear el premio antes de sumar.",

@@ -44,7 +44,7 @@ export function CardPage() {
 
       <section
         aria-label={t("app.card.preview")}
-        className="sticky top-16 z-20 -mx-4 flex flex-col gap-3 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur"
+        className="-mx-4 flex flex-col gap-3 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur md:sticky md:top-16 md:z-20"
       >
         <PassPreview config={preview} stamps={sample} />
         <div className="mx-auto flex w-full max-w-xs items-center gap-3">
