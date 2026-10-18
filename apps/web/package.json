@@ -9,7 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "brand:build": "node scripts/generate-brand.mjs"
+    "brand:build": "node scripts/generate-brand.mjs",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate && drizzle-kit generate --config drizzle.pg.config.ts",
+    "db:migrate": "tsx --env-file-if-exists=.env.local src/server/db/migrate.ts",
+    "db:seed": "tsx --env-file-if-exists=.env.local src/server/db/seed.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.10",
@@ -44,6 +48,7 @@
     "opentype.js": "^2.0.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^5.0.5"
   }
 }

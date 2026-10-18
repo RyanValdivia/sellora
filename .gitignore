@@ -53,3 +53,5 @@ next-env.d.ts
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+/apps/web/data/
+data/
