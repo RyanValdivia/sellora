@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@sellora/ui/components/sonner";
 import { AppShell } from "@/components/app-shell";
 import { AuthProvider } from "@/lib/auth";
+import { CajaPage } from "@/pages/caja";
 import { CardPage } from "@/pages/card";
 import { HomePage } from "@/pages/home";
 import { LocationsPage } from "@/pages/locations";
@@ -30,6 +31,7 @@ const router = createHashRouter([
       { path: "mensajes", element: <MessagesPage /> },
       { path: "locales", element: <LocationsPage /> },
       { path: "compartir", element: <SharePage /> },
+      { path: "caja", element: <CajaPage /> },
     ],
   },
 ]);
