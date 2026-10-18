@@ -1,4 +1,13 @@
-import { CheckCircle2, Circle, type LucideIcon, MapPin, QrCode, ScanLine, WalletCards } from "lucide-react";
+import {
+  CheckCircle2,
+  Circle,
+  type LucideIcon,
+  MapPin,
+  QrCode,
+  ScanLine,
+  Users,
+  WalletCards,
+} from "lucide-react";
 import { Link, useOutletContext } from "react-router";
 import type { BusinessSummary } from "@sellora/shared/api/contracts";
 import { t, type DictionaryKey } from "@sellora/shared/i18n";
@@ -29,6 +38,7 @@ export function HomePage() {
       ownerOnly: true,
     },
     { to: "/compartir", key: "app.home.steps.share", icon: QrCode, done: false, ownerOnly: true },
+    { to: "/equipo", key: "app.home.steps.team", icon: Users, done: false, ownerOnly: true },
     { to: "/caja", key: "app.home.steps.caja", icon: ScanLine, done: false, ownerOnly: false },
   ];
 

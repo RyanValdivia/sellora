@@ -13,6 +13,7 @@ import { LocationsPage } from "@/pages/locations";
 import { LoginPage, RegisterPage } from "@/pages/auth";
 import { MessagesPage } from "@/pages/messages";
 import { SharePage } from "@/pages/share";
+import { TeamPage } from "@/pages/team";
 import "./index.css";
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ const router = createHashRouter([
       { path: "locales", element: <LocationsPage /> },
       { path: "compartir", element: <SharePage /> },
       { path: "caja", element: <CajaPage /> },
+      { path: "equipo", element: <TeamPage /> },
     ],
   },
 ]);

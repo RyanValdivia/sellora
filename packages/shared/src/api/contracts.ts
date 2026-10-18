@@ -81,3 +81,29 @@ export interface CardActionResponse {
   /** Mensaje que recibirá el cliente (ya con variables). Caja lo muestra como confirmación. */
   message: string;
 }
+
+export const acceptInvitationInput = z.object({
+  name: z.string().trim().min(2).max(60),
+  email: z.email(),
+  password: z.string().min(8).max(128),
+});
+export type AcceptInvitationInput = z.infer<typeof acceptInvitationInput>;
+
+export interface TeamMemberDto {
+  userId: string;
+  name: string;
+  email: string;
+  role: "owner" | "staff";
+}
+
+export interface InvitationDto {
+  id: string;
+  role: "owner" | "staff";
+  expiresAt: string;
+}
+
+export interface TeamResponse {
+  members: TeamMemberDto[];
+  invitations: InvitationDto[];
+  maxStaff: number;
+}

@@ -24,17 +24,19 @@ function isKnown(name: string): name is MessageVariable {
  * y las conocidas sin valor se sustituyen por cadena vacía.
  */
 export function renderMessage(template: string, vars: MessageVars): string {
-  return template
-    .replace(VARIABLE_RE, (whole, name: string) => {
-      if (!isKnown(name)) return whole;
-      const value = vars[name];
-      return value === undefined ? "" : String(value);
-    })
-    .replace(/\s+([,.!?])/g, "$1")
-    // Sin nombre queda una coma colgando ("tarjeta,!"): la quitamos.
-    .replace(/,\s*([!.?])/g, "$1")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  return (
+    template
+      .replace(VARIABLE_RE, (whole, name: string) => {
+        if (!isKnown(name)) return whole;
+        const value = vars[name];
+        return value === undefined ? "" : String(value);
+      })
+      .replace(/\s+([,.!?])/g, "$1")
+      // Sin nombre queda una coma colgando ("tarjeta,!"): la quitamos.
+      .replace(/,\s*([!.?])/g, "$1")
+      .replace(/\s{2,}/g, " ")
+      .trim()
+  );
 }
 
 /** Devuelve las variables de la plantilla que no existen (para avisar en el editor). */
