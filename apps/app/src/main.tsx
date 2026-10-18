@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@sellora/ui/components/sonner";
 import { AppShell } from "@/components/app-shell";
 import { AuthProvider } from "@/lib/auth";
+import { AdminPage } from "@/pages/admin";
 import { CajaPage } from "@/pages/caja";
 import { CardPage } from "@/pages/card";
 import { HomePage } from "@/pages/home";
@@ -24,6 +25,7 @@ const queryClient = new QueryClient({
 const router = createHashRouter([
   { path: "/entrar", element: <LoginPage /> },
   { path: "/registro", element: <RegisterPage /> },
+  { path: "/admin", element: <AdminPage /> },
   {
     element: <AppShell />,
     children: [

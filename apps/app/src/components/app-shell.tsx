@@ -49,7 +49,7 @@ export function AppShell() {
       </div>
     );
   }
-  if (!business) return <Onboarding />;
+  if (!business) return state.user.role === "superadmin" ? <Navigate to="/admin" replace /> : <Onboarding />;
 
   const isOwner = business.role === "owner";
   const tabs = TABS.filter((tab) => isOwner || !tab.ownerOnly);

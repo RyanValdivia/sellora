@@ -3,6 +3,7 @@ import { createBusinessInput, slugify, type BusinessSummary } from "@sellora/sha
 import { defaultBusinessConfig } from "@sellora/shared/business/config";
 import { fail, getSession, parseBody, unauthorized } from "@/server/api";
 import { dbPromise, schema } from "@/server/db";
+import { getPlatformSettings } from "@/server/settings";
 
 /** Negocios del usuario con sesión. */
 export async function GET(request: Request) {
@@ -30,6 +31,11 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const session = await getSession(request);
   if (!session) return unauthorized();
+
+  const isSuperadmin = (session.user as { role?: string }).role === "superadmin";
+  if (!isSuperadmin && !(await getPlatformSettings()).signupsOpen) {
+    return fail(403, "signups_closed", "Por ahora no estamos creando negocios nuevos.");
+  }
 
   const body = await parseBody(request, createBusinessInput);
   if ("response" in body) return body.response;

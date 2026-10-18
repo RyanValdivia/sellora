@@ -68,6 +68,16 @@ export async function requireMember(
   return { membership: { userId: session.user.id, role, businessId } };
 }
 
+/** Solo el superadmin de la plataforma. Para el resto responde 404 y no revela que el panel existe. */
+export async function requireSuperadmin(
+  request: Request,
+): Promise<{ userId: string } | { response: Response }> {
+  const session = await getSession(request);
+  if (!session) return { response: unauthorized() };
+  if ((session.user as { role?: string }).role !== "superadmin") return { response: notFound() };
+  return { userId: session.user.id };
+}
+
 /**
  * Carga una tarjeta para el personal. Responde igual (404) si no existe o si es de otro negocio,
  * para que un cajero no pueda averiguar qué seriales existen en otros locales.

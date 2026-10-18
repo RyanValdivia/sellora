@@ -102,6 +102,35 @@ export interface InvitationDto {
   expiresAt: string;
 }
 
+export const adminBusinessPatch = z.object({
+  active: z.boolean().optional(),
+  plan: z.enum(["free", "pro"]).optional(),
+});
+
+export const platformSettingsInput = z.object({
+  /** Si es falso, solo el superadmin puede crear negocios nuevos. */
+  signupsOpen: z.boolean(),
+});
+export type PlatformSettings = z.infer<typeof platformSettingsInput>;
+
+export interface AdminBusinessDto {
+  id: string;
+  slug: string;
+  name: string;
+  plan: "free" | "pro";
+  active: boolean;
+  createdAt: string;
+  passes: number;
+  staff: number;
+}
+
+export interface AdminStats {
+  businesses: number;
+  activeBusinesses: number;
+  passes: number;
+  stamps: number;
+}
+
 export interface TeamResponse {
   members: TeamMemberDto[];
   invitations: InvitationDto[];
