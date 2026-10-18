@@ -13,7 +13,8 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate && drizzle-kit generate --config drizzle.pg.config.ts",
     "db:migrate": "tsx --env-file-if-exists=.env.local src/server/db/migrate.ts",
-    "db:seed": "tsx --env-file-if-exists=.env.local src/server/db/seed.ts"
+    "db:seed": "tsx --env-file-if-exists=.env.local src/server/db/seed.ts",
+    "app:assets": "node scripts/make-app-assets.mjs"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.10",

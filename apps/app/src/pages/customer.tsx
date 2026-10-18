@@ -15,11 +15,17 @@ import { WebScanner } from "@/components/web-scanner";
 import { HttpError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useAddCard, useMyCard, useMyCards, useRenameCard } from "@/lib/customer";
+import { registerForPush } from "@/lib/push";
 import { ScanCancelled, hasNativeScanner, scanNative } from "@/lib/scanner";
 
 /** Marco de la parte del cliente: sin menú, solo sus tarjetas. */
 export function CustomerShell() {
   const { state, signOut } = useAuth();
+  const isCustomer = state.status === "authenticated" && state.user.role === "customer";
+  useEffect(() => {
+    if (isCustomer) void registerForPush();
+  }, [isCustomer]);
+
   if (state.status === "loading") return <Loading />;
   if (state.status === "anonymous") return <Navigate to="/entrar" replace />;
   if (state.user.role !== "customer") return <Navigate to="/" replace />;

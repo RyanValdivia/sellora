@@ -59,3 +59,12 @@ data/
 # build de Vite y Capacitor
 apps/app/dist/
 android/local.properties
+release/
+
+# Firebase y firma de Android
+google-services.json
+GoogleService-Info.plist
+keystore.properties
+*.jks
+*.keystore
+certs/

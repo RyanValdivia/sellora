@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vitest run --passWithNoTests",
-    "cap:sync": "pnpm build && cap sync"
+    "cap:sync": "pnpm build && cap sync",
+    "android:debug": "pnpm build && cap sync android && cd android && ./gradlew assembleDebug",
+    "android:release": "pnpm build && cap sync android && cd android && ./gradlew bundleRelease"
   },
   "dependencies": {
     "@capacitor-mlkit/barcode-scanning": "^8.2.1",
