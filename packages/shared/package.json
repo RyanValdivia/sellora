@@ -1,0 +1,24 @@
+{
+  "name": "@sellora/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./config": "./sellora.config.ts",
+    "./config-schema": "./src/config/schema.ts",
+    "./i18n": "./src/i18n/index.ts",
+    "./brand/*": "./src/brand/*.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5",
+    "vitest": "^5.0.5"
+  }
+}

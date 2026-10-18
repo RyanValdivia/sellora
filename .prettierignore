@@ -1,7 +1,8 @@
 .next
 node_modules
 pnpm-lock.yaml
-public/brand
+apps/web/public/brand
 drizzle
 *.generated.ts
 AGENTS.md
+docs/diagramas
